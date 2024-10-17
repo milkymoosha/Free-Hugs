@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hug from Madhav</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 1rem;
+        }
+        .cookie-consent {
+            margin-top: 1rem;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        .accept {
+            background-color: #4caf50;
+            color: white;
+        }
+        .accept:hover {
+            background-color: #45a049;
+        }
+        .decline {
+            background-color: #2a2a2a;
+            color: #f44336;
+            border: 1px solid #f44336;
+        }
+        .decline:hover {
+            background-color: #3a3a3a;
+        }
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        video {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .thank-you {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #121212;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            text-align: center;
+        }
+        .hug-emoji {
+            font-size: 10rem;
+            margin-bottom: 1rem;
+        }
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .close-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        .decline-message {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f44336;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Click for a hug from Madhav</h1>
+        <div id="cookie-consent" class="cookie-consent">
+            <p>This site uses cookies. Do you accept?</p>
+            <div class="button-container">
+                <button class="accept" onclick="handleConsent(true)">Accept</button>
+                <button class="decline" onclick="handleConsent(false)">Decline</button>
+            </div>
+        </div>
+    </div>
+    <div id="video-container" class="video-container">
+        <video id="video">
+            <source src="video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div id="decline-message" class="decline-message" style="display: none;">
+            He doesn't care if you decline
+        </div>
+        <button class="close-button" onclick="closeExperience()" aria-label="Close">×</button>
+    </div>
+    <div id="thank-you" class="thank-you">
+        <div class="hug-emoji">🤗</div>
+        <div>Nevermind, here's a hug from him!</div>
+        <button class="close-button" onclick="closeExperience()" aria-label="Close">×</button>
+    </div>
+
+    <script>
+        let declined = false;
+
+        function handleConsent(consent) {
+            document.getElementById('cookie-consent').style.display = 'none';
+            declined = !consent;
+            playVideo();
+        }
+
+        function playVideo() {
+            const videoContainer = document.getElementById('video-container');
+            const video = document.getElementById('video');
+            const declineMessage = document.getElementById('decline-message');
+            
+            videoContainer.style.display = 'flex';
+            if (declined) {
+                declineMessage.style.display = 'block';
+            }
+            video.play();
+        }
+
+        function showThankYou() {
+            document.getElementById('video-container').style.display = 'none';
+            document.getElementById('thank-you').style.display = 'flex';
+        }
+
+        function closeExperience() {
+            document.getElementById('video-container').style.display = 'none';
+            document.getElementById('thank-you').style.display = 'none';
+            document.getElementById('cookie-consent').style.display = 'block';
+            document.getElementById('decline-message').style.display = 'none';
+            const video = document.getElementById('video');
+            video.pause();
+            video.currentTime = 0;
+            declined = false;
+        }
+
+        // Add event listener for video end
+        document.getElementById('video').addEventListener('ended', showThankYou);
+    </script>
+</body>
+</html>
